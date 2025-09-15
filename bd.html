@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100%22><text y=%22.9em%22 font-size=%2290%22>🚗</text></svg>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Панель администратора</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      html, body {
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      }
+      .hidden { display: none; }
+      input:disabled, select:disabled, textarea:disabled {
+        background-color: #f3f4f6; /* bg-gray-100 */
+        cursor: not-allowed;
+      }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+<div class="min-h-screen text-gray-900 flex flex-col">
+    <div class="container mx-auto px-4 sm:px-6 py-8 flex-grow flex flex-col">
+        <header class="flex justify-between items-center mb-6">
+            <a href="./index.html" class="text-gray-900">
+                <svg width="99" height="27" viewBox="0 0 99 27" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_117_213)"><path d="M72.67 3.82V0H51.52V3.82H60.44V18.13H64.25V3.82H72.67Z" fill="currentColor"/><path d="M98.4298 18.13V14.32H81.0898V10.97H90.4598V7.56H81.0898V3.82H98.4298V0H77.2798V18.13H98.4298Z" fill="currentColor"/><path d="M21.15 18.13V7.61H7.97V10.97H17.34V14.77H3.82V3.82H21.15V0H0V18.13H21.15Z" fill="currentColor"/><path d="M29.5698 18.13V10.97H43.0898V18.13H46.9098V0H25.7598V18.13H29.5798H29.5698ZM29.5698 7.56V3.81H43.0898V7.56H29.5698Z" fill="currentColor"/><path d="M62.09 24.8401H0V25.5501H62.09V24.8401Z" fill="currentColor"/><path d="M68.5902 24.03H68.5802C68.3102 23.66 67.9602 23.48 67.5302 23.48C67.0602 23.48 66.6802 23.64 66.3902 23.95C66.1002 24.27 65.9502 24.66 65.9502 25.14C65.9502 25.62 66.1002 26.02 66.3902 26.34C66.6802 26.66 67.0702 26.81 67.5302 26.81C67.9502 26.81 68.3002 26.62 68.5802 26.25H68.5902V26.71H69.3602V23.56H68.5902V24.02V24.03ZM68.3302 25.83C68.1602 26.02 67.9402 26.11 67.6702 26.11C67.4002 26.11 67.1902 26.02 67.0102 25.83C66.8402 25.64 66.7502 25.41 66.7502 25.15C66.7502 24.89 66.8402 24.67 67.0102 24.47C67.1802 24.28 67.4002 24.19 67.6702 24.19C67.9402 24.19 68.1502 24.28 68.3302 24.47C68.5002 24.66 68.5902 24.89 68.5902 25.15C68.5902 25.41 68.5002 25.64 68.3302 25.83Z" fill="currentColor"/><path d="M72.1703 25.4101C72.1703 25.6101 72.1003 25.7701 71.9703 25.9101C71.8403 26.0401 71.6703 26.1101 71.4803 26.1101C71.2903 26.1101 71.1303 26.0401 71.0003 25.9101C70.8703 25.7801 70.8003 25.6101 70.8003 25.4101V23.5701H70.0303V25.4801C70.0303 25.8701 70.1403 26.2001 70.3703 26.4501C70.6003 26.7001 70.8903 26.8201 71.2603 26.8201C71.4803 26.8201 71.6803 26.7701 71.8503 26.6701C72.0203 26.5701 72.1503 26.4401 72.2403 26.2701H72.2503V26.7201H72.9603V23.5701H72.1903V25.4101H72.1703Z" fill="currentColor"/><path d="M74.4702 22.8601H73.7001V23.5701H73.4102V24.1701H73.7001V25.7901C73.7001 26.0701 73.7902 26.3001 73.9602 26.4701C74.1402 26.6401 74.3702 26.7201 74.6502 26.7201H75.0002V26.0301H74.6502C74.6002 26.0301 74.5601 26.0101 74.5201 25.9801C74.4801 25.9401 74.4702 25.9001 74.4702 25.8401V24.1601H75.0102V23.5601H74.4702V22.8501V22.8601Z" fill="currentColor"/><path d="M76.98 23.48C76.5 23.48 76.09 23.64 75.75 23.96C75.42 24.28 75.25 24.68 75.25 25.15C75.25 25.62 75.42 26.02 75.75 26.34C76.08 26.66 76.49 26.82 76.98 26.82C77.47 26.82 77.87 26.66 78.21 26.34C78.54 26.02 78.71 25.62 78.71 25.15C78.71 24.68 78.54 24.29 78.21 23.96C77.88 23.64 77.47 23.48 76.98 23.48ZM77.65 25.86C77.48 26.04 77.26 26.13 76.98 26.13C76.7 26.13 76.48 26.04 76.31 25.85C76.14 25.67 76.06 25.43 76.06 25.14C76.06 24.85 76.14 24.62 76.31 24.44C76.48 24.25 76.7 24.16 76.98 24.16C77.26 24.16 77.48 24.25 77.65 24.44C77.82 24.62 77.9 24.85 77.9 25.14C77.9 25.43 77.82 25.67 77.65 25.85V25.86Z" fill="currentColor"/><path d="M82.6403 23.48C82.4603 23.48 82.2903 23.53 82.1103 23.63C81.9403 23.73 81.7903 23.86 81.6803 24.02C81.4503 23.66 81.1603 23.48 80.8003 23.48C80.4403 23.48 80.1803 23.65 79.9803 24H79.9703V23.57H79.2603V26.72H80.0303V24.74C80.0303 24.58 80.0803 24.45 80.1903 24.35C80.3003 24.24 80.4303 24.19 80.5803 24.19C80.7303 24.19 80.8703 24.24 80.9703 24.35C81.0803 24.46 81.1302 24.59 81.1302 24.74V26.72H81.9003V24.74C81.9003 24.58 81.9502 24.45 82.0602 24.35C82.1702 24.24 82.3002 24.19 82.4502 24.19C82.6002 24.19 82.7402 24.24 82.8402 24.35C82.9502 24.46 83.0003 24.59 83.0003 24.74V26.72H83.7702V24.77C83.7702 24.38 83.6703 24.07 83.4703 23.83C83.2703 23.59 82.9903 23.47 82.6403 23.47V23.48Z" fill="currentColor"/><path d="M86.0401 23.48C85.5601 23.48 85.1501 23.64 84.8101 23.96C84.4801 24.28 84.3101 24.68 84.3101 25.15C84.3101 25.62 84.4801 26.02 84.8101 26.34C85.1401 26.66 85.5501 26.82 86.0401 26.82C86.5301 26.82 86.9301 26.66 87.2701 26.34C87.6001 26.02 87.7701 25.62 87.7701 25.15C87.7701 24.68 87.6001 24.29 87.2701 23.96C86.9401 23.64 86.5301 23.48 86.0401 23.48ZM86.7101 25.86C86.5401 26.04 86.3201 26.13 86.0401 26.13C85.7601 26.13 85.5401 26.04 85.3701 25.85C85.2001 25.67 85.1201 25.43 85.1201 25.14C85.1201 24.85 85.2001 24.62 85.3701 24.44C85.5401 24.25 85.7601 24.16 86.0401 24.16C86.3201 24.16 86.5401 24.25 86.7101 24.44C86.8801 24.62 86.9601 24.85 86.9601 25.14C86.9601 25.43 86.8801 25.67 86.7101 25.85V25.86Z" fill="currentColor"/><path d="M90.1401 23.4801C89.7101 23.4801 89.3601 23.6601 89.0901 24.0301H89.0801V22.6401H88.3101V26.7201H89.0801V26.2601H89.0901C89.3701 26.6301 89.7201 26.8201 90.1401 26.8201C90.6101 26.8201 90.9901 26.6601 91.2801 26.3501C91.5701 26.0301 91.7201 25.6301 91.7201 25.1501C91.7201 24.6701 91.5701 24.2701 91.2801 23.9601C90.9901 23.6401 90.6001 23.4901 90.1401 23.4901V23.4801ZM90.6601 25.8301C90.4901 26.0201 90.2701 26.1101 90.0001 26.1101C89.7301 26.1101 89.5201 26.0201 89.3401 25.8301C89.1701 25.6401 89.0801 25.4101 89.0801 25.1501C89.0801 24.8901 89.1701 24.6701 89.3401 24.4701C89.5101 24.2801 89.7301 24.1901 90.0001 24.1901C90.2701 24.1901 90.4801 24.2801 90.6601 24.4701C90.8301 24.6601 90.9201 24.8901 90.9201 25.1501C90.9201 25.4101 90.8301 25.6401 90.6601 25.8301Z" fill="currentColor"/><path d="M92.66 22.55C92.54 22.55 92.44 22.59 92.36 22.68C92.27 22.76 92.23 22.86 92.23 22.98C92.23 23.1 92.27 23.2001 92.36 23.2801C92.44 23.3601 92.55 23.4 92.66 23.4C92.77 23.4 92.88 23.3601 92.96 23.2801C93.04 23.2001 93.09 23.1 93.09 22.98C93.09 22.86 93.05 22.76 92.96 22.68C92.87 22.6 92.77 22.55 92.66 22.55Z" fill="currentColor"/><path d="M93.04 23.5701H92.27V26.7201H93.04V23.5701Z" fill="currentColor"/><path d="M94.4702 22.6401H93.7002V26.7201H94.4702V22.6401Z" fill="currentColor"/><path d="M98.4303 25.15C98.4303 24.68 98.2603 24.29 97.9303 23.97C97.6003 23.65 97.2003 23.49 96.7303 23.49C96.2603 23.49 95.8403 23.65 95.5103 23.97C95.1803 24.29 95.0103 24.69 95.0103 25.16C95.0103 25.63 95.1803 26.03 95.5103 26.35C95.8403 26.67 96.2503 26.83 96.7203 26.83C97.0803 26.83 97.3902 26.74 97.6702 26.55C97.9502 26.36 98.1503 26.11 98.2603 25.79H97.4202C97.3502 25.9 97.2502 25.99 97.1302 26.06C97.0002 26.13 96.8703 26.16 96.7203 26.16C96.5103 26.16 96.3203 26.1 96.1503 25.97C95.9903 25.84 95.8802 25.69 95.8402 25.51H98.3802C98.4102 25.38 98.4202 25.26 98.4202 25.16L98.4303 25.15ZM95.8603 24.83C95.9003 24.63 96.0103 24.46 96.1603 24.33C96.3203 24.2 96.5102 24.13 96.7402 24.13C96.9702 24.13 97.1502 24.2 97.3102 24.33C97.4702 24.46 97.5603 24.63 97.6103 24.83H95.8603Z" fill="currentColor"/></g><defs><clipPath id="clip0_117_213"><rect width="98.43" height="26.82" fill="white"/></clipPath></defs></svg>
+            </a>
+        </header>
+
+        <main class="flex-grow flex flex-col">
+            <!-- User List View -->
+            <div id="user-list-view">
+                <div class="mb-4">
+                    <h1 class="text-3xl font-bold tracking-tight">Панель администратора</h1>
+                </div>
+                <div class="mb-6 flex flex-col sm:flex-row gap-4">
+                    <div class="relative flex-grow">
+                        <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                        </div>
+                        <input id="search-input" type="search" placeholder="Поиск по пользователям..." class="w-full h-14 pl-14 pr-5 py-2 text-base bg-white rounded-full border border-gray-200 focus:ring-2 focus:ring-black focus:border-black outline-none transition-shadow" />
+                    </div>
+                    <button id="add-user-btn" class="w-full sm:w-auto h-14 px-6 bg-black text-white text-base font-bold rounded-full hover:bg-gray-800 transition-all transform active:scale-95 flex items-center justify-center whitespace-nowrap">
+                        Добавить пользователя
+                    </button>
+                </div>
+                <div id="user-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- User cards will be injected here -->
+                </div>
+            </div>
+
+            <!-- User Detail/Edit View -->
+            <div id="user-detail-view" class="hidden">
+                 <div class="mb-6 flex justify-between items-center">
+                    <button id="back-to-list-btn" class="flex items-center gap-2 text-gray-800 hover:text-black font-medium transition-colors w-min whitespace-nowrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                        <span>Назад к списку</span>
+                    </button>
+                    <div class="flex items-center gap-4">
+                        <button id="edit-user-btn" class="w-auto h-12 px-6 bg-gray-200 text-gray-800 text-base font-bold rounded-full hover:bg-gray-300 transition-all transform active:scale-95 flex items-center justify-center">Редактировать</button>
+                        <button id="save-user-btn" class="w-auto h-12 px-8 bg-black text-white text-base font-bold rounded-full hover:bg-gray-800 transition-all transform active:scale-95 flex items-center justify-center hidden">Сохранить</button>
+                    </div>
+                </div>
+
+                <div class="w-full max-w-2xl mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-sm">
+                    <form id="user-form">
+                        <div class="flex flex-col sm:flex-row items-center gap-6 mb-8">
+                            <div class="relative">
+                                <img id="user-photo-img" src="" alt="Фотография" class="w-24 h-24 rounded-full object-cover bg-gray-200 text-gray-500 flex items-center justify-center text-3xl font-bold cursor-pointer">
+                                <input type="file" id="photo-upload" class="hidden" accept="image/*">
+                            </div>
+                            <h2 id="user-name-header" class="text-2xl font-bold text-center sm:text-left"></h2>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                            <div>
+                                <label for="lastName" class="block text-sm font-medium text-gray-500 mb-1">Фамилия</label>
+                                <input type="text" id="lastName" class="w-full h-12 px-4 text-base bg-white rounded-xl border border-gray-300 focus:ring-2 focus:ring-black focus:border-black outline-none transition-shadow" required>
+                            </div>
+                            <div>
+                                <label for="firstName" class="block text-sm font-medium text-gray-500 mb-1">Имя</label>
+                                <input type="text" id="firstName" class="w-full h-12 px-4 text-base bg-white rounded-xl border border-gray-300 focus:ring-2 focus:ring-black focus:border-black outline-none transition-shadow" required>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label for="middleName" class="block text-sm font-medium text-gray-500 mb-1">Отчество</label>
+                                <input type="text" id="middleName" class="w-full h-12 px-4 text-base bg-white rounded-xl border border-gray-300 focus:ring-2 focus:ring-black focus:border-black outline-none transition-shadow">
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="block text-sm font-medium text-gray-500">Телефон</label>
+                                    <button type="button" id="add-phone-btn" class="text-sm font-bold text-black hover:underline disabled:text-gray-400 disabled:no-underline" title="Добавить телефон">+ Добавить</button>
+                                </div>
+                                <div id="phone-inputs" class="space-y-2"></div>
+                            </div>
+                            
+                            <div class="sm:col-span-2">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="block text-sm font-medium text-gray-500">Почта</label>
+                                    <button type="button" id="add-email-btn" class="text-sm font-bold text-black hover:underline disabled:text-gray-400 disabled:no-underline" title="Добавить почту">+ Добавить</button>
+                                </div>
+                                <div id="email-inputs" class="space-y-2"></div>
+                            </div>
+
+                             <div>
+                                <label for="company" class="block text-sm font-medium text-gray-500 mb-1">Компания</label>
+                                <input type="text" id="company" class="w-full h-12 px-4 text-base bg-white rounded-xl border border-gray-300 focus:ring-2 focus:ring-black focus:border-black outline-none transition-shadow">
+                            </div>
+                            <div>
+                                <label for="legalForm" class="block text-sm font-medium text-gray-500 mb-1">Форма</label>
+                                <select id="legalForm" class="w-full h-12 px-4 text-base bg-white rounded-xl border border-gray-300 focus:ring-2 focus:ring-black focus:border-black outline-none transition-shadow">
+                                    <option>ООО</option>
+                                    <option>ИП</option>
+                                    <option>Самозанятый</option>
+                                    <option>Физик</option>
+                                </select>
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <label for="tag" class="block text-sm font-medium text-gray-500 mb-1">Тег</label>
+                                <input type="text" id="tag" class="w-full h-12 px-4 text-base bg-white rounded-xl border border-gray-300 focus:ring-2 focus:ring-black focus:border-black outline-none transition-shadow">
+                            </div>
+
+                             <div class="sm:col-span-2">
+                                <label for="comment" class="block text-sm font-medium text-gray-500 mb-1">Комментарий (виден только администратору)</label>
+                                <textarea id="comment" rows="3" class="w-full p-4 text-base bg-white rounded-xl border border-gray-300 focus:ring-2 focus:ring-black focus:border-black outline-none transition-shadow"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="text-center py-6 mt-12 border-t border-gray-200">
+            <p class="text-sm text-gray-500">&copy; 2024 Gate Automobile. Панель администратора.</p>
+        </footer>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- STATE & CONFIG ---
+    const DB_KEY = 'gateAutoUsers';
+    let users = [];
+    let state = {
+        currentView: 'list', // 'list' or 'detail'
+        selectedUserId: null,
+        isEditMode: false,
+        searchTerm: '',
+    };
+    const defaultAvatarColor = '#e5e7eb'; // bg-gray-200
+
+    // --- DOM ELEMENTS ---
+    const userListView = document.getElementById('user-list-view');
+    const userDetailView = document.getElementById('user-detail-view');
+    const userListContainer = document.getElementById('user-list-container');
+    const searchInput = document.getElementById('search-input');
+    const addUserBtn = document.getElementById('add-user-btn');
+    const backToListBtn = document.getElementById('back-to-list-btn');
+    const editUserBtn = document.getElementById('edit-user-btn');
+    const saveUserBtn = document.getElementById('save-user-btn');
+    const userForm = document.getElementById('user-form');
+    // Form fields
+    const photoImg = document.getElementById('user-photo-img');
+    const photoUpload = document.getElementById('photo-upload');
+    const userNameHeader = document.getElementById('user-name-header');
+    const lastNameInput = document.getElementById('lastName');
+    const firstNameInput = document.getElementById('firstName');
+    const middleNameInput = document.getElementById('middleName');
+    const phoneInputsContainer = document.getElementById('phone-inputs');
+    const emailInputsContainer = document.getElementById('email-inputs');
+    const addPhoneBtn = document.getElementById('add-phone-btn');
+    const addEmailBtn = document.getElementById('add-email-btn');
+    const companyInput = document.getElementById('company');
+    const legalFormSelect = document.getElementById('legalForm');
+    const tagInput = document.getElementById('tag');
+    const commentTextarea = document.getElementById('comment');
+    
+    // --- DATA HELPERS ---
+    const generateId = () => `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+    const loadUsers = () => {
+        const data = localStorage.getItem(DB_KEY);
+        if (data) {
+            users = JSON.parse(data);
+        } else {
+            // Pre-populate with default data if empty
+            users = [
+                { id: 'admin_1', firstName: 'Админ', lastName: 'Админов', middleName: 'Админович', phones: ['+70000000000'], emails: ['admin@gate.auto'], company: 'GATE Automobile', legalForm: 'ООО', photo: null, tag: 'Администратор', comment: 'Главный администратор системы.' },
+                { id: 'user_1', firstName: 'Иван', lastName: 'Петров', middleName: 'Сергеевич', phones: ['+79161234567'], emails: ['ivan.p@example.com'], company: 'Рога и Копыта', legalForm: 'ИП', photo: null, tag: 'Клиент', comment: 'Постоянный клиент, интересуется внедорожниками.' },
+            ];
+            saveUsers();
+        }
+    };
+    
+    const saveUsers = () => {
+        localStorage.setItem(DB_KEY, JSON.stringify(users));
+    };
+
+    const getUserById = (id) => users.find(user => user.id === id);
+
+    // --- RENDER HELPERS ---
+    const generateAvatar = (firstName, lastName) => {
+        const initials = `${(firstName || '?').charAt(0)}${(lastName || '?').charAt(0)}`.toUpperCase();
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="${defaultAvatarColor}"/><text x="50" y="50" font-family="Arial" font-size="40" fill="#6b7280" text-anchor="middle" dy=".3em">${initials}</text></svg>`;
+        return `data:image/svg+xml;base64,${btoa(svg)}`;
+    };
+
+    const renderUserList = () => {
+        const filteredUsers = users.filter(user => {
+            const searchTermLower = state.searchTerm.toLowerCase();
+            return (
+                user.firstName?.toLowerCase().includes(searchTermLower) ||
+                user.lastName?.toLowerCase().includes(searchTermLower) ||
+                user.company?.toLowerCase().includes(searchTermLower) ||
+                user.tag?.toLowerCase().includes(searchTermLower)
+            );
+        });
+
+        if (filteredUsers.length === 0) {
+            userListContainer.innerHTML = '<p class="col-span-full text-center text-gray-500 py-10">Пользователи не найдены.</p>';
+            return;
+        }
+
+        userListContainer.innerHTML = filteredUsers.map(user => {
+            const fullName = `${user.lastName || ''} ${user.firstName || ''}`.trim();
+            const avatarSrc = user.photo || generateAvatar(user.firstName, user.lastName);
+            return `
+                <div data-user-id="${user.id}" class="bg-white p-5 rounded-2xl shadow-sm flex items-center gap-4 cursor-pointer hover:shadow-md hover:bg-gray-50 transition-all">
+                    <img src="${avatarSrc}" alt="Avatar" class="w-16 h-16 rounded-full object-cover flex-shrink-0 bg-gray-200">
+                    <div class="overflow-hidden">
+                        <h3 class="font-bold text-lg truncate">${fullName || 'Без имени'}</h3>
+                        <p class="text-gray-500 truncate">${user.company || 'Без компании'}</p>
+                        ${user.tag ? `<span class="mt-2 inline-block bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">${user.tag}</span>` : ''}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    };
+
+    const renderDetailView = () => {
+        const user = getUserById(state.selectedUserId);
+
+        // Reset form for new user or populate with existing user data
+        lastNameInput.value = user ? user.lastName : '';
+        firstNameInput.value = user ? user.firstName : '';
+        middleNameInput.value = user ? user.middleName : '';
+        companyInput.value = user ? user.company : '';
+        legalFormSelect.value = user ? user.legalForm : 'ООО';
+        tagInput.value = user ? user.tag : '';
+        commentTextarea.value = user ? user.comment : '';
+
+        const fullName = user ? `${user.lastName || ''} ${user.firstName || ''}`.trim() : 'Новый пользователь';
+        userNameHeader.textContent = fullName || 'Новый пользователь';
+        
+        photoImg.src = (user && user.photo) ? user.photo : generateAvatar(firstNameInput.value, lastNameInput.value);
+
+        // Render dynamic fields
+        phoneInputsContainer.innerHTML = '';
+        const phones = (user && user.phones) ? user.phones : [''];
+        phones.forEach(phone => addDynamicInput('phone', phone));
+
+        emailInputsContainer.innerHTML = '';
+        const emails = (user && user.emails) ? user.emails : [''];
+        emails.forEach(email => addDynamicInput('email', email));
+
+        // Toggle edit/view mode
+        const allInputs = userForm.querySelectorAll('input, select, textarea');
+        allInputs.forEach(input => input.disabled = !state.isEditMode);
+        addPhoneBtn.disabled = !state.isEditMode;
+        addEmailBtn.disabled = !state.isEditMode;
+        photoImg.style.cursor = state.isEditMode ? 'pointer' : 'default';
+
+        editUserBtn.classList.toggle('hidden', state.isEditMode);
+        saveUserBtn.classList.toggle('hidden', !state.isEditMode);
+    };
+
+    const addDynamicInput = (type, value = '') => {
+        const container = type === 'phone' ? phoneInputsContainer : emailInputsContainer;
+        const input = document.createElement('input');
+        input.type = type === 'phone' ? 'tel' : 'email';
+        input.value = value;
+        input.className = "w-full h-12 px-4 text-base bg-white rounded-xl border border-gray-300 focus:ring-2 focus:ring-black focus:border-black outline-none transition-shadow";
+        input.disabled = !state.isEditMode;
+        container.appendChild(input);
+    };
+
+    // --- MAIN RENDER FUNCTION ---
+    const render = () => {
+        if (state.currentView === 'list') {
+            userListView.classList.remove('hidden');
+            userDetailView.classList.add('hidden');
+            renderUserList();
+        } else {
+            userListView.classList.add('hidden');
+            userDetailView.classList.remove('hidden');
+            renderDetailView();
+        }
+    };
+
+    // --- EVENT HANDLERS ---
+    const handleSwitchToDetail = (userId) => {
+        state.selectedUserId = userId;
+        state.currentView = 'detail';
+        state.isEditMode = userId === null; // Enter edit mode immediately for new users
+        render();
+    };
+
+    const handleSwitchToList = () => {
+        state.currentView = 'list';
+        state.selectedUserId = null;
+        state.isEditMode = false;
+        render();
+    };
+
+    const handleSave = () => {
+        const phones = Array.from(phoneInputsContainer.querySelectorAll('input')).map(input => input.value).filter(Boolean);
+        const emails = Array.from(emailInputsContainer.querySelectorAll('input')).map(input => input.value).filter(Boolean);
+
+        const userData = {
+            lastName: lastNameInput.value.trim(),
+            firstName: firstNameInput.value.trim(),
+            middleName: middleNameInput.value.trim(),
+            company: companyInput.value.trim(),
+            legalForm: legalFormSelect.value,
+            tag: tagInput.value.trim(),
+            comment: commentTextarea.value.trim(),
+            photo: photoImg.src.startsWith('data:image/') ? photoImg.src : null, // Only save if it's a new base64 image
+            phones,
+            emails,
+        };
+        
+        if (state.selectedUserId) { // Update existing user
+            const userIndex = users.findIndex(u => u.id === state.selectedUserId);
+            if (userIndex !== -1) {
+                users[userIndex] = { ...users[userIndex], ...userData };
+            }
+        } else { // Create new user
+            userData.id = generateId();
+            users.push(userData);
+            state.selectedUserId = userData.id;
+        }
+
+        saveUsers();
+        state.isEditMode = false;
+        render();
+    };
+    
+    // --- EVENT LISTENERS ---
+    searchInput.addEventListener('input', (e) => {
+        state.searchTerm = e.target.value;
+        renderUserList();
+    });
+
+    addUserBtn.addEventListener('click', () => handleSwitchToDetail(null));
+    backToListBtn.addEventListener('click', handleSwitchToList);
+    editUserBtn.addEventListener('click', () => {
+        state.isEditMode = true;
+        render();
+    });
+    saveUserBtn.addEventListener('click', handleSave);
+
+    userListContainer.addEventListener('click', (e) => {
+        const card = e.target.closest('[data-user-id]');
+        if (card) {
+            handleSwitchToDetail(card.dataset.userId);
+        }
+    });
+
+    addPhoneBtn.addEventListener('click', () => addDynamicInput('phone'));
+    addEmailBtn.addEventListener('click', () => addDynamicInput('email'));
+
+    photoImg.addEventListener('click', () => {
+        if (state.isEditMode) {
+            photoUpload.click();
+        }
+    });
+    photoUpload.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                photoImg.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // --- INITIALIZATION ---
+    loadUsers();
+    render();
+});
+</script>
+</body>
+</html>

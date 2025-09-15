@@ -1,11 +1,13 @@
 
 
+
 const CACHE_NAME = 'gate-auto-cache-v6.15.1';
 const APP_SHELL_URLS = [
   '/',
   './index.html',
   './call.html',
-  './autorisation.html'
+  './autorisation.html',
+  './bd.html'
 ];
 
 self.addEventListener('install', event => {
