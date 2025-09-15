@@ -44,7 +44,7 @@
                         Добавить пользователя
                     </button>
                 </div>
-                <div id="user-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div id="user-list-container" class="space-y-4">
                     <!-- User cards will be injected here -->
                 </div>
             </div>
@@ -56,10 +56,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                         <span>Назад к списку</span>
                     </button>
-                    <div class="flex items-center gap-4">
-                        <button id="edit-user-btn" class="w-auto h-12 px-6 bg-gray-200 text-gray-800 text-base font-bold rounded-full hover:bg-gray-300 transition-all transform active:scale-95 flex items-center justify-center">Редактировать</button>
-                        <button id="save-user-btn" class="w-auto h-12 px-8 bg-black text-white text-base font-bold rounded-full hover:bg-gray-800 transition-all transform active:scale-95 flex items-center justify-center hidden">Сохранить</button>
-                    </div>
+                    <button id="edit-user-btn" class="w-auto h-12 px-6 bg-gray-200 text-gray-800 text-base font-bold rounded-full hover:bg-gray-300 transition-all transform active:scale-95 flex items-center justify-center">Редактировать</button>
                 </div>
 
                 <div class="w-full max-w-2xl mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-sm">
@@ -74,11 +71,11 @@
                         
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                             <div>
-                                <label for="lastName" class="block text-sm font-medium text-gray-500 mb-1">Фамилия</label>
+                                <label for="lastName" class="block text-sm font-medium text-gray-500 mb-1">Фамилия <span class="text-red-500">*</span></label>
                                 <input type="text" id="lastName" class="w-full h-12 px-4 text-base bg-white rounded-xl border border-gray-300 focus:ring-2 focus:ring-black focus:border-black outline-none transition-shadow" required>
                             </div>
                             <div>
-                                <label for="firstName" class="block text-sm font-medium text-gray-500 mb-1">Имя</label>
+                                <label for="firstName" class="block text-sm font-medium text-gray-500 mb-1">Имя <span class="text-red-500">*</span></label>
                                 <input type="text" id="firstName" class="w-full h-12 px-4 text-base bg-white rounded-xl border border-gray-300 focus:ring-2 focus:ring-black focus:border-black outline-none transition-shadow" required>
                             </div>
                             <div class="sm:col-span-2">
@@ -120,11 +117,25 @@
                                 <label for="tag" class="block text-sm font-medium text-gray-500 mb-1">Тег</label>
                                 <input type="text" id="tag" class="w-full h-12 px-4 text-base bg-white rounded-xl border border-gray-300 focus:ring-2 focus:ring-black focus:border-black outline-none transition-shadow">
                             </div>
-
+                            
                              <div class="sm:col-span-2">
                                 <label for="comment" class="block text-sm font-medium text-gray-500 mb-1">Комментарий (виден только администратору)</label>
                                 <textarea id="comment" rows="3" class="w-full p-4 text-base bg-white rounded-xl border border-gray-300 focus:ring-2 focus:ring-black focus:border-black outline-none transition-shadow"></textarea>
                             </div>
+
+                            <div class="sm:col-span-2 border-t pt-6 mt-2 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                                <div>
+                                    <label for="login" class="block text-sm font-medium text-gray-500 mb-1">Логин <span class="text-red-500">*</span></label>
+                                    <input type="text" id="login" class="w-full h-12 px-4 text-base bg-white rounded-xl border border-gray-300 focus:ring-2 focus:ring-black focus:border-black outline-none transition-shadow" required>
+                                </div>
+                                <div>
+                                    <label for="password" class="block text-sm font-medium text-gray-500 mb-1">Пароль <span class="text-red-500">*</span></label>
+                                    <input type="text" id="password" class="w-full h-12 px-4 text-base bg-white rounded-xl border border-gray-300 focus:ring-2 focus:ring-black focus:border-black outline-none transition-shadow" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <button id="save-user-btn" type="button" class="w-full h-14 bg-black text-white text-base font-bold rounded-full hover:bg-gray-800 transition-all transform active:scale-95 flex items-center justify-center hidden">Сохранить</button>
                         </div>
                     </form>
                 </div>
@@ -175,6 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const legalFormSelect = document.getElementById('legalForm');
     const tagInput = document.getElementById('tag');
     const commentTextarea = document.getElementById('comment');
+    const loginInput = document.getElementById('login');
+    const passwordInput = document.getElementById('password');
     
     // --- DATA HELPERS ---
     const generateId = () => `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -187,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Pre-populate with default data if empty
             users = [
                 { id: 'admin_1', firstName: 'Админ', lastName: 'Админов', middleName: 'Админович', phones: ['+70000000000'], emails: ['admin@gate.auto'], company: 'GATE Automobile', legalForm: 'ООО', photo: null, tag: 'Администратор', comment: 'Главный администратор системы.' },
-                { id: 'user_1', firstName: 'Иван', lastName: 'Петров', middleName: 'Сергеевич', phones: ['+79161234567'], emails: ['ivan.p@example.com'], company: 'Рога и Копыта', legalForm: 'ИП', photo: null, tag: 'Клиент', comment: 'Постоянный клиент, интересуется внедорожниками.' },
+                { id: 'user_1', firstName: 'Иван', lastName: 'Петров', middleName: 'Сергеевич', phones: ['+79161234567'], emails: ['ivan.p@example.com'], company: 'Рога и Копыта', legalForm: 'ИП', photo: null, tag: 'Агент', comment: 'Постоянный клиент, интересуется внедорожниками.', login: 'agent', password: '123' },
             ];
             saveUsers();
         }
@@ -201,7 +214,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- RENDER HELPERS ---
     const generateAvatar = (firstName, lastName) => {
-        const initials = `${(firstName || '?').charAt(0)}${(lastName || '?').charAt(0)}`.toUpperCase();
+        const f = (firstName || '').trim();
+        const l = (lastName || '').trim();
+        const initials = `${l ? l.charAt(0) : ''}${(f && l) ? f.charAt(0) : (f ? f.charAt(0) : '?')}`.toUpperCase();
         const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="${defaultAvatarColor}"/><text x="50" y="50" font-family="Arial" font-size="40" fill="#6b7280" text-anchor="middle" dy=".3em">${initials}</text></svg>`;
         return `data:image/svg+xml;base64,${btoa(svg)}`;
     };
@@ -216,32 +231,52 @@ document.addEventListener('DOMContentLoaded', () => {
                 user.tag?.toLowerCase().includes(searchTermLower)
             );
         });
+        
+        filteredUsers.sort((a, b) => (a.lastName || '').localeCompare(b.lastName || '', 'ru'));
 
-        if (filteredUsers.length === 0) {
+        const groupedUsers = filteredUsers.reduce((acc, user) => {
+            const firstLetter = (user.lastName || '#').charAt(0).toUpperCase();
+            if (!acc[firstLetter]) {
+                acc[firstLetter] = [];
+            }
+            acc[firstLetter].push(user);
+            return acc;
+        }, {});
+        
+        const sortedGroups = Object.keys(groupedUsers).sort((a, b) => a.localeCompare(b, 'ru'));
+
+        if (sortedGroups.length === 0) {
             userListContainer.innerHTML = '<p class="col-span-full text-center text-gray-500 py-10">Пользователи не найдены.</p>';
+            userListContainer.className = '';
             return;
         }
 
-        userListContainer.innerHTML = filteredUsers.map(user => {
-            const fullName = `${user.lastName || ''} ${user.firstName || ''}`.trim();
-            const avatarSrc = user.photo || generateAvatar(user.firstName, user.lastName);
-            return `
-                <div data-user-id="${user.id}" class="bg-white p-5 rounded-2xl shadow-sm flex items-center gap-4 cursor-pointer hover:shadow-md hover:bg-gray-50 transition-all">
-                    <img src="${avatarSrc}" alt="Avatar" class="w-16 h-16 rounded-full object-cover flex-shrink-0 bg-gray-200">
-                    <div class="overflow-hidden">
-                        <h3 class="font-bold text-lg truncate">${fullName || 'Без имени'}</h3>
-                        <p class="text-gray-500 truncate">${user.company || 'Без компании'}</p>
-                        ${user.tag ? `<span class="mt-2 inline-block bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">${user.tag}</span>` : ''}
+        let listHTML = '';
+        sortedGroups.forEach(letter => {
+            listHTML += `<h2 class="col-span-full text-xl font-bold text-gray-400 my-4 border-b pb-2">${letter}</h2>`;
+            listHTML += groupedUsers[letter].map(user => {
+                const fullName = `${user.lastName || ''} ${user.firstName || ''}`.trim();
+                const avatarSrc = user.photo || generateAvatar(user.firstName, user.lastName);
+                return `
+                    <div data-user-id="${user.id}" class="bg-white p-5 rounded-2xl shadow-sm flex items-center gap-4 cursor-pointer hover:shadow-md hover:bg-gray-50 transition-all">
+                        <img src="${avatarSrc}" alt="Avatar" class="w-16 h-16 rounded-full object-cover flex-shrink-0 bg-gray-200">
+                        <div class="overflow-hidden">
+                            <h3 class="font-bold text-lg truncate">${fullName || 'Без имени'}</h3>
+                            <p class="text-gray-500 truncate">${user.company || 'Без компании'}</p>
+                            ${user.tag ? `<span class="mt-2 inline-block bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">${user.tag}</span>` : ''}
+                        </div>
                     </div>
-                </div>
-            `;
-        }).join('');
+                `;
+            }).join('');
+        });
+
+        userListContainer.innerHTML = listHTML;
+        userListContainer.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
     };
 
     const renderDetailView = () => {
         const user = getUserById(state.selectedUserId);
 
-        // Reset form for new user or populate with existing user data
         lastNameInput.value = user ? user.lastName : '';
         firstNameInput.value = user ? user.firstName : '';
         middleNameInput.value = user ? user.middleName : '';
@@ -249,22 +284,33 @@ document.addEventListener('DOMContentLoaded', () => {
         legalFormSelect.value = user ? user.legalForm : 'ООО';
         tagInput.value = user ? user.tag : '';
         commentTextarea.value = user ? user.comment : '';
+        loginInput.value = user ? user.login : '';
+        passwordInput.value = user ? user.password : '';
 
-        const fullName = user ? `${user.lastName || ''} ${user.firstName || ''}`.trim() : 'Новый пользователь';
-        userNameHeader.textContent = fullName || 'Новый пользователь';
-        
-        photoImg.src = (user && user.photo) ? user.photo : generateAvatar(firstNameInput.value, lastNameInput.value);
+        const updateHeaderAndAvatar = () => {
+            const fullName = `${lastNameInput.value || ''} ${firstNameInput.value || ''}`.trim();
+            userNameHeader.textContent = fullName || 'Новый пользователь';
+            if (!photoImg.src.startsWith('data:image/jpeg') && !photoImg.src.startsWith('data:image/png')) {
+                 photoImg.src = generateAvatar(firstNameInput.value, lastNameInput.value);
+            }
+        };
 
-        // Render dynamic fields
+        if (user && user.photo) {
+            photoImg.src = user.photo;
+        } else {
+            photoImg.src = generateAvatar(firstNameInput.value, lastNameInput.value);
+        }
+        updateHeaderAndAvatar();
+
+
         phoneInputsContainer.innerHTML = '';
-        const phones = (user && user.phones) ? user.phones : [''];
+        const phones = (user && user.phones && user.phones.length > 0) ? user.phones : [''];
         phones.forEach(phone => addDynamicInput('phone', phone));
 
         emailInputsContainer.innerHTML = '';
-        const emails = (user && user.emails) ? user.emails : [''];
+        const emails = (user && user.emails && user.emails.length > 0) ? user.emails : [''];
         emails.forEach(email => addDynamicInput('email', email));
 
-        // Toggle edit/view mode
         const allInputs = userForm.querySelectorAll('input, select, textarea');
         allInputs.forEach(input => input.disabled = !state.isEditMode);
         addPhoneBtn.disabled = !state.isEditMode;
@@ -285,7 +331,6 @@ document.addEventListener('DOMContentLoaded', () => {
         container.appendChild(input);
     };
 
-    // --- MAIN RENDER FUNCTION ---
     const render = () => {
         if (state.currentView === 'list') {
             userListView.classList.remove('hidden');
@@ -298,11 +343,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- EVENT HANDLERS ---
     const handleSwitchToDetail = (userId) => {
         state.selectedUserId = userId;
         state.currentView = 'detail';
-        state.isEditMode = userId === null; // Enter edit mode immediately for new users
+        state.isEditMode = userId === null;
         render();
     };
 
@@ -310,10 +354,17 @@ document.addEventListener('DOMContentLoaded', () => {
         state.currentView = 'list';
         state.selectedUserId = null;
         state.isEditMode = false;
+        searchInput.value = '';
+        state.searchTerm = '';
         render();
     };
 
     const handleSave = () => {
+        if (!lastNameInput.value.trim() || !firstNameInput.value.trim() || !loginInput.value.trim() || !passwordInput.value.trim()) {
+            alert('Пожалуйста, заполните обязательные поля: Фамилия, Имя, Логин и Пароль.');
+            return;
+        }
+        
         const phones = Array.from(phoneInputsContainer.querySelectorAll('input')).map(input => input.value).filter(Boolean);
         const emails = Array.from(emailInputsContainer.querySelectorAll('input')).map(input => input.value).filter(Boolean);
 
@@ -325,25 +376,25 @@ document.addEventListener('DOMContentLoaded', () => {
             legalForm: legalFormSelect.value,
             tag: tagInput.value.trim(),
             comment: commentTextarea.value.trim(),
-            photo: photoImg.src.startsWith('data:image/') ? photoImg.src : null, // Only save if it's a new base64 image
+            photo: photoImg.src.startsWith('data:image/') ? photoImg.src : (getUserById(state.selectedUserId)?.photo || null),
             phones,
             emails,
+            login: loginInput.value.trim(),
+            password: passwordInput.value,
         };
         
-        if (state.selectedUserId) { // Update existing user
+        if (state.selectedUserId) {
             const userIndex = users.findIndex(u => u.id === state.selectedUserId);
             if (userIndex !== -1) {
                 users[userIndex] = { ...users[userIndex], ...userData };
             }
-        } else { // Create new user
+        } else {
             userData.id = generateId();
             users.push(userData);
-            state.selectedUserId = userData.id;
         }
 
         saveUsers();
-        state.isEditMode = false;
-        render();
+        handleSwitchToList();
     };
     
     // --- EVENT LISTENERS ---
@@ -385,6 +436,22 @@ document.addEventListener('DOMContentLoaded', () => {
             reader.readAsDataURL(file);
         }
     });
+    
+    const updateHeaderAndAvatarLive = () => {
+        const fullName = `${lastNameInput.value || ''} ${firstNameInput.value || ''}`.trim();
+        userNameHeader.textContent = fullName || (state.selectedUserId ? 'Редактирование' : 'Новый пользователь');
+        
+        const existingUser = getUserById(state.selectedUserId);
+        const hasExistingPhoto = existingUser && existingUser.photo;
+
+        if (!photoImg.src.startsWith('data:image/jpeg') && !photoImg.src.startsWith('data:image/png') && !hasExistingPhoto) {
+             photoImg.src = generateAvatar(firstNameInput.value, lastNameInput.value);
+        }
+    };
+
+    firstNameInput.addEventListener('input', updateHeaderAndAvatarLive);
+    lastNameInput.addEventListener('input', updateHeaderAndAvatarLive);
+
 
     // --- INITIALIZATION ---
     loadUsers();
