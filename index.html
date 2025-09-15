@@ -270,7 +270,7 @@
             <p class="text-sm text-gray-500 mb-2"></p>
             <p class="text-xs text-gray-500 mt-2 max-w-2xl mx-auto">Не является публичной офертой. Сведения о стоимости являются рекламной информацией и могут не совпадать с окончательной стоимостью продажи. Все фотографии представлены с целью иллюстрации предложения. Для точной информации об ассортименте и ценах свяжитесь с сотрудниками компании.</p>
             <div class="mt-4 flex justify-center">
-                <span class="inline-block bg-gray-200 text-gray-600 text-xs font-semibold px-2.5 py-0.5 rounded-full">Beta 6.15.2</span>
+                <span class="inline-block bg-gray-200 text-gray-600 text-xs font-semibold px-2.5 py-0.5 rounded-full">Beta 6.15.4</span>
             </div>
         </footer>
     </div>
@@ -363,18 +363,29 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- START OF SERVICES (DATA FETCHING & PARSING) ---
     const checkLoginStatus = () => {
         const userData = sessionStorage.getItem('gateAutoCurrentUser');
+        const userBtn = document.getElementById('user-account-btn');
         if (userData) {
-            currentUser = JSON.parse(userData);
-            const userBtn = document.getElementById('user-account-btn');
-            if (userBtn) {
-                userBtn.href = "#"; // Make it a button
-                userBtn.setAttribute('aria-label', "Выйти из личного кабинета");
-                userBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>`;
-                userBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    sessionStorage.removeItem('gateAutoCurrentUser');
-                    window.location.reload();
-                });
+            try {
+                currentUser = JSON.parse(userData);
+                if (userBtn) {
+                    // Turn green, set icon to cross
+                    userBtn.classList.remove('bg-red-600', 'hover:bg-red-700', 'focus:ring-red-500');
+                    userBtn.classList.add('bg-green-600', 'hover:bg-green-700', 'focus:ring-green-500');
+                    userBtn.href = "#"; // Make it a button
+                    userBtn.setAttribute('aria-label', "Выйти из личного кабинета");
+                    userBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>`;
+                    
+                    // Add logout listener
+                    userBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        sessionStorage.removeItem('gateAutoCurrentUser');
+                        window.location.reload();
+                    });
+                }
+            } catch(e) {
+                // If user data is corrupted, clear it and proceed as logged out
+                sessionStorage.removeItem('gateAutoCurrentUser');
+                currentUser = null;
             }
         }
     };
